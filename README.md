@@ -3,17 +3,16 @@
 Assignment - 3
   Samyak Jain (2019098) and Sarthak Johari (2019099)
 
-
-Question - 1
+## Question - 1
 
 We were asked to pick a real-world network dataset with nodes > 100, so for this purpose, we have chosen wiki-vote to be our dataset. The network has information about Wikipedia voting (related to the promotion of user to adminship) and the data is collected from the period of the start of Wikipedia to January 2008. The nodes in the network represent the Wikipedia users, and a directed edge in the graph from ith node to jth node represents that user i voted for user j.
 
-Methodology
+### Methodology
 
 Firstly, it was observed that the nodeIDs were not continuous in a particular range of integers thus we assigned a unique node number to each node and maintained a map from nodeID to nodeNumber and vice versa too. the nodeNumber is an integer in the range [0, N] where N = Number of nodes in the graph.
 Following this, we form an ‘adjacency matrix’ and ‘edge list’ representing the network. The ‘adjacency matrix’ A is an NxN matrix where Aij=1 if there is an edge from the node with nodeNumber ‘i’ to the node with nodeNumber ‘j’ in the directed network otherwise, Aij = 0. Edge list is a list of tuples where each tuple (i,j) represents that there is an edge from the node with nodeNumber ‘i’ to the node with nodeNumber ‘j’ in the directed network. 
 
-Following is the information about the dataset:
+### Following is the information about the dataset:
 1. Number of Nodes: 7115
 2. Number of Edges: 103689
 3. Avg In-degree: 14.573295853829936
@@ -22,19 +21,17 @@ Following is the information about the dataset:
 6. Node with Max out-degree : Node ID - 2565 | Out-Degree = 893.0
 7. The density of the network: 0.0020485375110809584
 
-Metrics calculation:
+### Metrics calculation:
 
 - The number of nodes and number of edges were directly present in the dataset file. Still, we performed a sanity check and calculated the number of unique nodes and the number of edges (number of lines in the edge list part of the text file) and the results were consistent with the expected. 
 
 - Avg In-degree: Firstly indegree of all nodes is calculated and stored in a form of a dictionary with the key representing the node number and value representing the in-degree of that node. For calculating the in-degree of a node with node number ‘i’, we take the sum of elements of ith column because that would have value 1 whenever there is an edge incoming to node ‘i’ from any other node. After getting the in-degree of all the nodes, we simply take the average of the in-degree values over all nodes.
 
-	Average in-degree = Sum of in-degrees of all nodes
-                                                              N
+					Average in-degree = Sum of in-degrees of all nodes / N
 					
 - Avg out-degree: Firstly outdegree of all nodes is calculated and stored in a form of a dictionary with the key representing the node number and the value representing the out-degree of that node. For calculating the out-degree of a node with node number ‘i’, we take the sum of elements of ith row because that would have value 1 whenever there is an edge outgoing from node ‘i’ to any other node. After getting the out-degree of all the nodes, we simply take the average of the out-degree values over all nodes.
 
-                  Average out-degree = Sum of out-degrees of all nodes
-                                                                          N
+                  			Average out-degree = Sum of out-degrees of all nodes / N
 					
 
 - We calculated the in-degrees of all the nodes previously. So we select the node with the maximum value of indegree from the dictionary of indegree we have maintained.
@@ -43,25 +40,20 @@ Metrics calculation:
 
 - For network density we have used the formula :
 
-	Network-density =    No. of edges present in the network  
-				      Total possible edges in the network
+		Network-density =    No. of edges present in the network  / Total possible edges in the network
 
   
  In a directed graph network,
 
-	Total possible edges in network = (N)*(N - 1)
-	where, N = Number of nodes in the graph
+		Total possible edges in network = (N)*(N - 1)
+		where, N = Number of nodes in the graph
 
-Following are the degree distribution plots for the network:
+### Following are the degree distribution plots for the network:
 
-In-Degree Distribution:
+![in-degree](https://github.com/samyak19098/IR2022_A3_62/blob/main/Q1/In-Degree_Distribution.png)
+![out-degree](https://github.com/samyak19098/IR2022_A3_62/blob/main/Q1/Out-Degree_Distribution.png)
 
-
-
-Out-Degree Distribution
-
-
-Local Clustering Coefficient (LCC)
+### Local Clustering Coefficient (LCC)
 
 Note: The graph is converted to an undirected version as instructed for this part.
 
@@ -71,13 +63,13 @@ For a node, we first find the neighbour hood i.e the set of all the neighbour no
 
 Total possible links between neighbours = NT_i = (NV_i)*(NV_i - 1) / 2 [because we have considered undirected version here]
 
-	                        LCCi =   NE_i  / NT_i
+	                        		LCCi =   NE_i  / NT_i
 
 This way, the local clustering coefficient of each node is calculated.
 
 The plot for clustering-coefficient distribution is :
 
-
+![clusterin](https://github.com/samyak19098/IR2022_A3_62/blob/main/Q1/Clustering_Coeff_Distribution.png)
 
 
 
