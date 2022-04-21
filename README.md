@@ -71,39 +71,38 @@ The plot for clustering-coefficient distribution is :
 
 ![clusterin](https://github.com/samyak19098/IR2022_A3_62/blob/main/Q1/Clustering_Coeff_Distribution.png)
 
+<hr/>
 
 
-Question - 2
+## Question - 2
 
-In this question, we were asked to give PageRank score and Authority and Hub score to each node and also calculate the hub and authority scores. We first create a directed network using (a DiGraph object).
+- In this question, we were asked to give PageRank score and Authority and Hub score to each node and also calculate the hub and authority scores. We first create a directed network using (a DiGraph object).
 
-
-For calculating the PageRank score, we use the networkx.pagerank() function provided in the networkx library. 
-The page rank algorithm was developed for the purpose of ranking web pages, it computes and gives a score to a node based on the structure of the incoming links to that node in a graph G. The idea behind the algorithm is that the node which has more incoming links from other nodes is likely to have more importance. It involves a random walk process over the nodes, where nodes are visited with some probability values. Nodes with more incoming edges tend to be visited more frequently and are thus more important. This random walk process is combined with a teleport operation where the web surfer can jump from the current node to any node in the web graph with equal probability. This teleport operation can be used in two ways : (i) when there are no outgoing edges from a node (dead end), (ii) At any node, the teleport operation is invoked with a certain probability of 
-0 < α < 1 and the normal random walk process is carried out with probability 1 - α. Thus in this random walk and teleportation process, each node ‘u’ of the web graph is visited a fixed fraction of time π(u) - the pagerank of u. In terms of equations, let π be the probability distribution of the web surfer across web pages (nodes), then after certain iterations, we arrive at the steady-state distribution such that
-				           πP = π
+- For calculating the PageRank score, we use the networkx.pagerank() function provided in the networkx library. 
+The page rank algorithm was developed for the purpose of ranking web pages, it computes and gives a score to a node based on the structure of the incoming links to that node in a graph G. The idea behind the algorithm is that the node which has more incoming links from other nodes is likely to have more importance. It involves a random walk process over the nodes, where nodes are visited with some probability values. Nodes with more incoming edges tend to be visited more frequently and are thus more important. This random walk process is combined with a teleport operation where the web surfer can jump from the current node to any node in the web graph with equal probability. This teleport operation can be used in two ways : (i) when there are no outgoing edges from a node (dead end), (ii) At any node, the teleport operation is invoked with a certain probability of 0 < α < 1 and the normal random walk process is carried out with probability 1 - α. Thus in this random walk and teleportation process, each node ‘u’ of the web graph is visited a fixed fraction of time π(u) - the pagerank of u. In terms of equations, let π be the probability distribution of the web surfer across web pages (nodes), then after certain iterations, we arrive at the steady-state distribution such that
+								πP = π
 where P is the transition probability matrix. The left principal eigenvector of P (with the corresponding eigenvalue as 1) will give the pagerank values for the nodes.
 
-
-
-Now the nodes can have 2 types of scores to them. One is the authority score and the other is the hub score. They are basically metrics used for the evaluation of a node. Authorities are basically those nodes that contain useful information and its importance is measured by incoming links, whereas hubs are the nodes that point towards authorities.
+- Now the nodes can have 2 types of scores to them. One is the authority score and the other is the hub score. They are basically metrics used for the evaluation of a node. Authorities are basically those nodes that contain useful information and its importance is measured by incoming links, whereas hubs are the nodes that point towards authorities.
 
 In mathematical terms, the authority score of a node X is the sum of hub scores of all the nodes that point to X. Hub score of a node X is the sum of authority scores of all the nodes that X points towards.
 
 To begin with authority and hub scores are initialized by 1 for each node. Then repeated iterations are made of the authority update rule and the hub update rule which are given below.  
 
-For node X
+For node X, 
 
-Hub (X) = q  P Authority(q), (P =  are the set of nodes that X links to) 
+					Hub (X) = q  P Authority(q), (P =  are the set of nodes that X links to) 
 
-Authority (X) = q  P Hub(q), (P =  are the set of nodes that link to X) 
+					Authority (X) = q  P Hub(q), (P =  are the set of nodes that link to X) 
 
-To prevent the values from diverging we normalize the values after each iteration to obtain converging values.
-For this question, we have used networkx [networkx.hits()] for the calculation of authority and hub scores for each node.
+To prevent the values from diverging we normalize the values after each iteration to obtain converging values. For this question, we have used networkx [networkx.hits()] for the calculation of authority and hub scores for each node.
+
+<hr/>
+
 After finding out the values of the PageRank scores, Authority and Hub scores for each node, we sort them in the decreasing order of the respective scores to make some observations. Following are top 10 (nodeID, score) pair for each type of score :
 
 
-- PageRank Score :
+**- PageRank Score :**
 
 Top 10 NodeIDs based on PageRank score
 [(4037, 0.004612715891167541),
@@ -118,7 +117,7 @@ Top 10 NodeIDs based on PageRank score
  (5254, 0.0021500675059293213)]
 
 
-- Authority Score : 
+**- Authority Score : **
 
 Top 10 NodeIDs based on Authority score
 [(2398, 0.002580147178008874),
@@ -134,7 +133,7 @@ Top 10 NodeIDs based on Authority score
 
 
 
-- Hub Score : 
+**- Hub Score : **
 
 Top 10 NodeIDs based on Hub score
 [(2565, 0.007940492708143143),
@@ -151,43 +150,6 @@ Top 10 NodeIDs based on Hub score
 
 
 On observing, we can observe that there are a lot of common nodeIDs in the top 10 based on PageRank and Authority score for eg - 4037, 15, 2625, 2398. This is because both of the scoring techniques treat the nodes with more incoming links as more important and compute the rankings based in the incoming links to a node. PageRank is based on the structure of incoming links and is likely to give more importance to nodes with more incoming links (because the nodes with the most incoming links will be visited more often in the random walk process) and the authority score is directly based on inbound (incoming) links. Thus because of this kind of similarity, they share some common nodes in the top 10. Also, we can observe that the node with the maximum indegree (in-degree of = 457) as we found in the first question i.e - nodeID 4037 is very highly rated by both the algorithms (top in PageRank scores, and second in Authority score). HITS algorithm as we know computes the hub score for the node based on outgoing links and thus we can observe that the node with max out-degree (out-degree = 893) - nodeID 2565 (as found from the first question) has the highest hub score over here. Also, the values of authority score and hub
-score are normalized over here (by default in inbuilt networkx implementation) to prevent them from diverging. We further try to visualize the distribution of these scores using rugplots, in which the value of the single variable is displayed as marks/ticks along a single axis) [barplot was too cluttered due to the value of scores being around very small values):
+score are normalized over here (by default in inbuilt networkx implementation) to prevent them from diverging. We further try to visualize the distribution of these scores using rugplots, in which the value of the single variable is displayed as marks/ticks along a single axis) [barplot was too cluttered due to the value of scores being around very small values]. The distribution further gives insights about how the distribution is dense around certain values or between a range of values (the range can be seen from the graph). All of them have certain outlying high values for some of the nodes, but most of the nodes have scores lying in a specific range for each.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-The distribution further gives insights about how the distribution is dense around certain values or between a range of values (the range can be seen from the graph). All of them have certain outlying high values for some of the nodes, but most of the nodes have scores lying in a specific range for each.
-
-
-
-
-
-
-
-
+Note: Plots can be accessed in the folder Q2.
